@@ -12,24 +12,23 @@ class UserInfoService {
         val accessToken = session.token
         val idToken = session.idToken
         val info = UserInfo()
-        info.username = idToken.preferredUsername
-        info.emailID = idToken.email
-        info.lastname = idToken.familyName
-        info.firstname = idToken.givenName
-        info.idTokenInfo.issuer = idToken.issuer
-        info.idTokenInfo.audience = idToken.audience.joinToString(",")
-        info.accessTokenInfo.issuer = accessToken.issuer
-        info.accessTokenInfo.audience = accessToken.audience.joinToString(",")
+        info.username = idToken.preferredUsername?:""
+        info.email = idToken.email?:""
+        info.lastname = idToken.familyName?:""
+        info.firstname = idToken.givenName?:""
+        info.idTokenInfo.issuer = idToken.issuer?:""
+        info.idTokenInfo.audience = idToken.audience?.joinToString(",")?:""
+        info.accessTokenInfo.issuer = accessToken.issuer?:""
+        info.accessTokenInfo.audience = accessToken.audience?.joinToString(",")?:""
         val realmAccess = accessToken.realmAccess
-        info.accessTokenInfo.roles = realmAccess.roles.toString()
-        info.accessTokenInfo.scopes = accessToken.scope;
-
+        info.accessTokenInfo.roles = realmAccess.roles?.toString()?:""
+        info.accessTokenInfo.scopes = accessToken.scope?:""
         return info
     }
 
     class UserInfo {
         var username = "No data"
-        var emailID = "No data"
+        var email = "No data"
         var lastname = "No data"
         var firstname = "No data"
         var idTokenInfo = IdTokenInfo()
