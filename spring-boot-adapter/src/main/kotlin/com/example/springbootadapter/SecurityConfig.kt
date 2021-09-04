@@ -37,8 +37,8 @@ class SecurityConfig : KeycloakWebSecurityConfigurerAdapter() {
         super.configure(http)
 
         http.authorizeRequests()
+            .antMatchers("/").permitAll()
             .antMatchers("/secure/setting").hasRole("admin")
-            .antMatchers("/secure/*").hasRole("user")
-            .anyRequest().permitAll()
+            .anyRequest().authenticated()
     }
 }

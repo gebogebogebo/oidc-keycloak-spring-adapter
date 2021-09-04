@@ -10,28 +10,42 @@ class UserInfoService {
         val principal = token.principal as KeycloakPrincipal<*>
         val session = principal.keycloakSecurityContext
         val accessToken = session.token
-
+        val idToken = session.idToken
         val info = UserInfo()
-        info.username = accessToken.preferredUsername
-        info.emailID = accessToken.email
-        info.lastname = accessToken.familyName
-        info.firstname = accessToken.givenName
-        info.realmName = accessToken.issuer
-
+        info.username = idToken.preferredUsername
+        info.emailID = idToken.email
+        info.lastname = idToken.familyName
+        info.firstname = idToken.givenName
+        info.idTokenInfo.issuer = idToken.issuer
+        info.idTokenInfo.audience = idToken.audience.joinToString(",")
+        info.accessTokenInfo.issuer = accessToken.issuer
+        info.accessTokenInfo.audience = accessToken.audience.joinToString(",")
         val realmAccess = accessToken.realmAccess
-        info.roles = realmAccess.roles.toString();
-        info.scopes = accessToken.scope;
+        info.accessTokenInfo.roles = realmAccess.roles.toString()
+        info.accessTokenInfo.scopes = accessToken.scope;
 
         return info
     }
 
     class UserInfo {
-        var username: String? = "No data"
-        var emailID: String? = "No data"
-        var lastname: String? = "No data"
-        var firstname: String? = "No data"
-        var realmName: String? = "No data"
-        var roles: String? = "No data"
-        var scopes: String? = "No data"
+        var username = "No data"
+        var emailID = "No data"
+        var lastname = "No data"
+        var firstname = "No data"
+        var idTokenInfo = IdTokenInfo()
+        var accessTokenInfo = AccessTokenInfo()
     }
+
+    class IdTokenInfo {
+        var issuer = "No data"
+        var audience = "No data"
+    }
+
+    class AccessTokenInfo {
+        var issuer = "No data"
+        var audience = "No data"
+        var roles = "No data"
+        var scopes = "No data"
+    }
+
 }
