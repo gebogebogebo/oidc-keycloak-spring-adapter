@@ -15,7 +15,7 @@ class AppController {
 
     @GetMapping("/secure/welcome")
     fun welcome(request: HttpServletRequest, model: Model):String{
-        model.addAttribute("userinfo", UserInfoService().getUserInfo())
+        model.addAttribute("userinfo", UserInfoService().getUserInfo(request))
         return "welcome"
     }
 
