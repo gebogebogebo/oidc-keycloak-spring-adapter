@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<h3>Welcome</h3>
+<div th:text="|user name = ${userinfo.username}|"></div>
+<div th:text="|email = ${userinfo.emailID}|"></div>
+<div th:text="|last name = ${userinfo.lastname}|"></div>
+<div th:text="|first name = ${userinfo.firstname}|"></div>
+<div th:text="|id token.issuer = ${userinfo.idTokenInfo.issuer}|"></div>
+<div th:text="|id token.audience = ${userinfo.idTokenInfo.audience}|"></div>
+<div th:text="|access token.issuer = ${userinfo.accessTokenInfo.issuer}|"></div>
+<div th:text="|access token.audience = ${userinfo.accessTokenInfo.audience}|"></div>
+<div th:text="|access token.roles = ${userinfo.accessTokenInfo.roles}|"></div>
+<div th:text="|access token.scopes = ${userinfo.accessTokenInfo.scopes}|"></div>
+
+<div>
+    <button onclick="location.href='./logout'">
+        Logout
+    </button>
+</div>
+<div>
+    <button onclick="location.href='./setting'">
+        Setting
+    </button>
+</div>
+</body>
+</html>
