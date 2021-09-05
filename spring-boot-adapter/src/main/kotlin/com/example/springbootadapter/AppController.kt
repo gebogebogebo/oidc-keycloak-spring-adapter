@@ -5,15 +5,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import javax.servlet.http.HttpServletRequest
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate
-
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
-
-
-
-
-
-
 
 @Controller
 class AppController {
