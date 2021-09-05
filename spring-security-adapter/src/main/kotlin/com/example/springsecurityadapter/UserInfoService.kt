@@ -2,12 +2,12 @@ package com.example.springsecurityadapter
 
 import org.springframework.security.core.context.SecurityContextHolder
 import org.keycloak.KeycloakPrincipal
-import org.keycloak.KeycloakSecurityContext
 
 class UserInfoService {
     fun getUserInfo():UserInfo{
-        val session = getSecurityContext()
-
+        val authentication = SecurityContextHolder.getContext().authentication
+        val principal = authentication.principal as KeycloakPrincipal<*>
+        val session = principal.keycloakSecurityContext
         val accessToken = session.token
         val idToken = session.idToken
         val info = UserInfo()
@@ -45,11 +45,4 @@ class UserInfoService {
         var roles = "No data"
         var scopes = "No data"
     }
-
-    private fun getSecurityContext(): KeycloakSecurityContext{
-        val authentication = SecurityContextHolder.getContext().authentication
-        val principal = authentication.principal as KeycloakPrincipal<*>
-        return principal.keycloakSecurityContext
-    }
-
 }

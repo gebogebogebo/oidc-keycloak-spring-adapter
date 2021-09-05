@@ -1,13 +1,12 @@
 package com.example.springbootadapter
 
 import org.keycloak.KeycloakPrincipal
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken
-import javax.servlet.http.HttpServletRequest
+import org.springframework.security.core.context.SecurityContextHolder
 
 class UserInfoService {
-    fun getUserInfo(request: HttpServletRequest):UserInfo{
-        val token = request.userPrincipal as KeycloakAuthenticationToken
-        val principal = token.principal as KeycloakPrincipal<*>
+    fun getUserInfo():UserInfo{
+        val authentication = SecurityContextHolder.getContext().authentication
+        val principal = authentication.principal as KeycloakPrincipal<*>
         val session = principal.keycloakSecurityContext
         val accessToken = session.token
         val idToken = session.idToken
@@ -46,5 +45,4 @@ class UserInfoService {
         var roles = "No data"
         var scopes = "No data"
     }
-
 }
