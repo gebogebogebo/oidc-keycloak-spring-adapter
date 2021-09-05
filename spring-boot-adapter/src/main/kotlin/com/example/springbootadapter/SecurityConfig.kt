@@ -12,6 +12,12 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy
+import org.keycloak.adapters.springsecurity.client.KeycloakClientRequestFactory
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory
+import org.springframework.context.annotation.Scope
+
 
 @KeycloakConfiguration
 class SecurityConfig : KeycloakWebSecurityConfigurerAdapter() {
@@ -40,5 +46,14 @@ class SecurityConfig : KeycloakWebSecurityConfigurerAdapter() {
             .antMatchers("/").permitAll()
             .antMatchers("/secure/setting").hasRole("admin")
             .anyRequest().authenticated()
+    }
+
+    @Autowired
+    lateinit var keycloakClientRequestFactory: KeycloakClientRequestFactory
+
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    fun keycloakRestTemplate(): KeycloakRestTemplate {
+        return KeycloakRestTemplate(keycloakClientRequestFactory)
     }
 }

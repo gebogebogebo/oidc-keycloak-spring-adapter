@@ -4,6 +4,16 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import javax.servlet.http.HttpServletRequest
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate
+
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+
+
+
+
+
+
 
 @Controller
 class AppController {
@@ -26,7 +36,15 @@ class AppController {
     }
 
     @GetMapping("/secure/setting")
-    fun setting():String{
+    fun setting(model: Model):String{
+        val response = template.getForEntity(endpoint, String::class.java)
+        model.addAttribute("openidconfiguration", response.body)
         return "setting"
     }
+
+    @Autowired
+    private lateinit var template: KeycloakRestTemplate
+    //private val endpoint = "http://localhost:8081/auth/realms/master/protocol/openid-connect/userinfo"
+    private val endpoint = "http://localhost:8081/auth/realms/master/.well-known/openid-configuration"
+
 }
